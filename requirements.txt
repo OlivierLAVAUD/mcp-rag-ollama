@@ -10,7 +10,7 @@ uvicorn
 fastapi
 
 faiss-cpu
-#faiss-gpu unix uniquement
+# faiss-gpu # unix uniquement
 
 beautifulsoup4
 requests
