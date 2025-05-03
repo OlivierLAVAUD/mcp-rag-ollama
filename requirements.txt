@@ -1,0 +1,18 @@
+langchain-ollama
+exa-py
+firecrawl
+python-dotenv
+fastmcp
+
+langchain_community
+
+uvicorn
+fastapi
+
+faiss-cpu
+#faiss-gpu unix uniquement
+
+beautifulsoup4
+requests
+
+lxml
