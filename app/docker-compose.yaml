@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  ollama-service:
+    build: .
+    container_name: rag-ollama-agent
+    volumes:
+      - ./models:/root/.ollama  # Persist models between restarts
+      - .:/app
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    ports:
+      - "11434:11434"  # Ollama port
+      - "8000:8000"    # Optional API port
+    command: >
+      sh -c "ollama serve &
+      sleep 10 &&
+      ollama pull llama3 &&
+      python main.py"
+    
+  # Optionnel : Service frontend si vous avez une interface
+  web-interface:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
+    depends_on:
+      - ollama-service
+
+# Volume pour persister les modèles
+volumes:
+  ollama-models:

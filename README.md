@@ -47,16 +47,6 @@ uv pip install -r requirements.txt
 cd app
 uv run mcp_server.py
 ```
-4. Executer l'app sur une autre session ou terminal 
-```bash
-cd app
-.venv\scripts\activate # Windows
-source .venv\scripts\activate # Unix
-# Exemple
-uv run agent.py "Qui est Jean Moulin?"
-# la reponse dans le terminal et le fichier response_analysis.txt
-```
-
 ##   Utiliser l'agent en CLI :
 
 ```bash
