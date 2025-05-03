@@ -12,3 +12,4 @@ wheels/
 uv.lock
 app/__init__.py
 .python-version
+.env
