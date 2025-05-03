@@ -15,7 +15,7 @@ Un agent intelligent qui combine recherche web, RAG (Retrieval-Augmented Generat
 
 - Python 3.9+
 - Ollama installé et configuré (serveur local ou distant)
-- Modèle LLM compatible (par défaut: `llama3`)
+- Modèle LLM compatible (par défaut: `mistral`)
 
 ## Installation
 
