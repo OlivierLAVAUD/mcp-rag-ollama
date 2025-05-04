@@ -1,140 +1,156 @@
 import asyncio
 import sys
-from typing import Optional, List, Dict
+from datetime import datetime
+from pathlib import Path
+import logging
+from typing import List
 from search import WebSearcher
 from rag import RAGProcessor
-from config import config
-import logging
-from ollama import AsyncClient  # Supposons qu'on utilise la librairie Ollama Python
+from ollama import AsyncClient
 
-logging.basicConfig(level=logging.INFO)
+# Configuration du système de logs
+LOG_DIR = Path("log")
+LOG_DIR.mkdir(exist_ok=True)
+LOG_FILE = LOG_DIR / 'agent.log'
+
+def setup_logging():
+    """Configure le système de logging de manière robuste"""
+    root_logger = logging.getLogger()
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+
+    file_handler = logging.FileHandler(LOG_FILE, mode='a', encoding='utf-8')
+    console_handler = logging.StreamHandler()
+
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+
+    root_logger.setLevel(logging.INFO)
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
+
+setup_logging()
 logger = logging.getLogger(__name__)
 
-class LLMAnalyzer:
+class Summarizer:
+    """Classe dédiée à la génération de synthèse"""
     def __init__(self, model: str = "mistral"):
-        self.model = model
         self.client = AsyncClient()
-    
-    async def analyze_response(self, prompt: str, response: str) -> str:
-        """Analyse la réponse avec un LLM pour vérifier la qualité, cohérence, etc."""
-        analysis_prompt = (
-            f"Analysez la réponse suivante à la requête '{prompt}':\n\n"
-            f"{response}\n\n"
-            "Évaluez:\n"
-            "- La pertinence par rapport à la question\n"
-            "- La cohérence des informations\n"
-            "- La présence de biais ou d'inexactitudes\n"
-            "- La clarté et l'organisation\n"
-            "- La qualité des sources citées (si présentes)\n"
-            "Fournissez une analyse structurée avec des suggestions d'amélioration si nécessaire."
+        self.model = model
+        self.last_prompt = ""  # Stocke le dernier prompt utilisé
+
+    async def summarize(self, text: str) -> str:
+        """Génère une synthèse concise en français"""
+        self.last_prompt = (
+            f"Résumez en paragraphes et en français ces sources:\n\n{text}"
         )
         
         try:
             response = await self.client.generate(
                 model=self.model,
-                prompt=analysis_prompt,
-                options={
-                    "temperature": 0.3,  # Pour une analyse plus factuelle
-                    "num_ctx": 8000  # Contexte plus long pour l'analyse
-                }
+                prompt=self.last_prompt,
+                options={"temperature": 0.3}
             )
             return response['response']
         except Exception as e:
-            logger.error(f"Erreur lors de l'analyse LLM: {str(e)}")
-            return ""
-
-    async def summarize_key_points(self, text: str) -> str:
-        """Résume les points clés d'un texte avec un LLM"""
-        try:
-            response = await self.client.generate(
-                model=self.model,
-                prompt=f"Résumez les points clés de ce texte en 3-5 points et en francais bullet:\n\n{text}",
-                options={"temperature": 0.2}
-            )
-            return response['response']
-        except Exception as e:
-            logger.error(f"Erreur lors du résumé: {str(e)}")
+            logger.error(f"Erreur lors de la synthèse: {str(e)}", exc_info=True)
             return ""
 
 class OllamaAgent:
     def __init__(self):
         self.searcher = WebSearcher()
         self.rag = RAGProcessor()
-        self.analyzer = LLMAnalyzer()
+        self.summarizer = Summarizer()
+        logger.info("Agent Ollama initialisé")
+
+    async def _log_interaction(self, query: str, response: str):
+        """Enregistre l'interaction complète avec le prompt LLM"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        interaction_log = LOG_DIR / f"{timestamp}.log"
+        
+        log_content = (
+            f"=== {datetime.now().isoformat()} ===\n"
+            f"Question utilisateur: {query}\n\n"
+            f"Prompt LLM utilisé:\n{self.summarizer.last_prompt}\n\n"
+            f"Réponse générée:\n{response}\n"
+            f"{'='*50}\n"
+        )
+        
+        try:
+            with open(interaction_log, 'w', encoding='utf-8') as f:
+                f.write(log_content)
+            logger.info(f"Interaction sauvegardée dans {interaction_log}")
+        except Exception as e:
+            logger.error(f"Erreur lors de la sauvegarde: {str(e)}")
 
     async def query(self, prompt: str) -> str:
+        """Traite une requête utilisateur"""
+        logger.info(f"Début du traitement: '{prompt}'")
+        
         try:
-            # Étape 1: Recherche initiale
-            formatted, docs = await self.searcher.execute(prompt)
+            # 1. Recherche initiale
+            initial_summary, docs = await self.searcher.execute(prompt)
             if not docs:
-                return formatted
-            
-            # Étape 2: Traitement RAG
+                logger.warning("Aucun document trouvé")
+                return initial_summary
+
+            # 2. Extraction RAG
             vectorstore = await self.rag.create_from_documents(docs)
-            relevant = await self.rag.similarity_search(prompt, vectorstore, k=3)
-            
-            # Construction de l'analyse initiale
-            analysis_parts = []
+            relevant_docs = await self.rag.similarity_search(prompt, vectorstore, k=3)
+
+            # 3. Formatage des sources
+            sources_content = []
             sources_used = []
             
-            for doc in relevant:
+            for doc in relevant_docs:
                 if not doc.metadata.get('error'):
-                    content = doc.page_content
-                    content = ' '.join(content.split())
-                    if len(content) > 800:
-                        content = content[:800] + "... [suite sur le site]"
-                    
-                    analysis_parts.append(
-                        f"**Source:** [{doc.metadata['source']}]({doc.metadata['source']})\n\n"
-                        f"{content}\n"
-                        f"{'-'*40}"
+                    content = ' '.join(doc.page_content.split())
+                    sources_content.append(
+                        f"**Titre:** {doc.metadata.get('title', 'Sans titre')}\n"
+                        f"**URL:** {doc.metadata['source']}\n"
+                        f"**Contenu:**\n{content[:800]}...\n"
+                        f"{'-'*50}"
                     )
                     sources_used.append(doc.metadata['source'])
-            
-            # Formatage de la réponse initiale
-            initial_response = (
-                f"{formatted}\n\n"
-                f"## Analyse contextuelle\n\n"
-                + "\n\n".join(analysis_parts)
+
+            # 4. Synthèse globale
+            combined_content = initial_summary + "\n\n" + "\n".join(sources_content)
+            final_summary = await self.summarizer.summarize(combined_content)
+
+            # 5. Construction réponse
+            response = (
+                f"## Synthèse\n\n{final_summary}\n\n"
+                f"## Sources\n\n" + "\n\n".join(sources_content) +
+                f"\n\n### URLs:\n" + "\n".join(f"- {url}" for url in sources_used)
             )
-            
-            # Étape 3: Analyse LLM de la réponse
-            llm_analysis = await self.analyzer.analyze_response(prompt, initial_response)
-            summary = await self.analyzer.summarize_key_points(initial_response)
-            
-            # Construction de la réponse finale
-            final_response = (
 
-                f"{initial_response}\n\n"
-                f"## Analyse LLM de la réponse\n\n"
-                f"{llm_analysis}\n\n"
+            await self._log_interaction(prompt, response)
+            return response
 
-                f"## Resumé\n\n"
-                f"{summary}\n\n"
-
-                f"### Sources utilisées\n\n"
-                + "\n".join(f"- {src}" for src in sources_used)
-            )
-            
-            return final_response
-        
         except Exception as e:
             logger.error(f"Erreur: {str(e)}", exc_info=True)
-            return "Désolé, une erreur s'est produite. Veuillez réessayer."
+            return "Erreur lors du traitement."
 
 async def main():
+    logger.info("Démarrage application")
     agent = OllamaAgent()
     query = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else input("Requête : ")
     
-    print("\nGénération de la réponse...\n")
+    print("\nTraitement en cours...\n")
     response = await agent.query(query)
     
-    print("\n=== RÉSULTAT FINAL ===\n")
+    print("\n=== RÉSULTAT ===")
     print(response)
     
-    # Optionnel: Sauvegarde dans un fichier
-    with open("response_analysis.txt", "w", encoding="utf-8") as f:
+    with open("reponse.txt", "w", encoding="utf-8") as f:
         f.write(response)
+    
+    logger.info("Traitement terminé")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        logger.critical(f"ERREUR CRITIQUE: {str(e)}", exc_info=True)
+        raise
