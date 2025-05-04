@@ -75,13 +75,13 @@ MCP-RAG-Ollama serves as a versatile query answering system that combines the po
 ## Architecture Overview
 The system follows a layered architecture pattern, separating client interactions, server operations, core processing, and external service integrations.
 
-img : ![Architecture Overview](img/i1.png)
+![Architecture Overview](img/i1.png){width=300 height=200}
 
 
 ### Core Components
 The system consists of four main components that work together to provide RAG capabilities:
 
-img : ![Core Component](img/i2.png)
+![Core Component](img/i2.png){width=300 height=200}
 
 ```bash
     - MCP Server: The FastAPI server that exposes endpoints for client interactions.
@@ -93,7 +93,7 @@ img : ![Core Component](img/i2.png)
 ## Query Processing Flow
 The following diagram illustrates how a user query flows through the system:
 
-img : ![Core Components](img/i3.png)
+![Core Components](img/i3.png){width=300 height=200}
 
 
 ## Technology Stack
@@ -118,7 +118,7 @@ Configuration	python-dotenv
 # Deployment Architecture
 The system can be deployed as follows:*
 
-img : ![Deployment Architecture](img/i4.png)
+![Deployment Architecture](img/i4.png){width=300 height=200}
 
 Getting Started
 
