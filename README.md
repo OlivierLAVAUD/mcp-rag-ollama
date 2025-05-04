@@ -97,20 +97,7 @@ The following diagram illustrates how a user query flows through the system:
 
 The MCP-RAG-Ollama system leverages multiple technologies and libraries:
 
-```bash
-Component	    Technologies
-Language        Model	Ollama (llama3.2)
-Embeddings  	Ollama (mistral)
-Vector          Storage	FAISS (CPU/GPU)
-Web             Framework	FastAPI, Uvicorn
-Search          Providers	Exa API, Firecrawl API
-Text            Processing	BeautifulSoup4, lxml
-RAG             Framework	LangChain, LangChain Community
-Configuration	python-dotenv
-```
-
-
-
+<p align="center"><img src="img/i5.png" alt="[Technology Stack" width="600" height="400"></p>
 
 # Deployment Architecture
 The system can be deployed as follows:*
