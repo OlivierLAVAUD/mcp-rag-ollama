@@ -97,7 +97,7 @@ The following diagram illustrates how a user query flows through the system:
 
 The MCP-RAG-Ollama system leverages multiple technologies and libraries:
 
-<p align="center"><img src="img/i5.png" alt="[Technology Stack" width="600" height="400"></p>
+<p align="center"><img src="img/i5.png" alt="[Technology Stack" width="400" height="200"></p>
 
 # Deployment Architecture
 The system can be deployed as follows:*
