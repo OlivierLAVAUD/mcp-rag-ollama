@@ -76,7 +76,7 @@ MCP-RAG-Ollama serves as a versatile query answering system that combines the po
 The system follows a layered architecture pattern, separating client interactions, server operations, core processing, and external service integrations.
 <p align="center"><img src="img/i1.png" alt="[Architecture Overview" width="600" height="400"></p>
 
-### Core Components
+## Core Components
 The system consists of four main components that work together to provide RAG capabilities:
 <p align="center"><img src="img/i2.png" alt="[Core Components" width="600" height="400">
 </p>
@@ -99,18 +99,7 @@ The MCP-RAG-Ollama system leverages multiple technologies and libraries:
 
 <p align="center"><img src="img/i5.png" alt="[Technology Stack" width="400" height="200"></p>
 
-# Deployment Architecture
+## Deployment Architecture
 The system can be deployed as follows:*
 
 <p align="center"><img src="img/i4.png" alt="Deployment Architecture" width="600" height="400"></p>
-
-## Getting Started
-
-To use the MCP-RAG-Ollama system, you need to:
-
-    1. Initialize Ollama with the required models
-    2. Configure your environment variables
-    3. Install the Python dependencies
-    4. Launch the MCP server or use the CLI agent directly
-
-For detailed setup instructions, please refer to Installation and Set
