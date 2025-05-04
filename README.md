@@ -80,6 +80,7 @@ The system follows a layered architecture pattern, separating client interaction
 The system consists of four main components that work together to provide RAG capabilities:
 <p align="center"><img src="img/i2.png" alt="[Core Components" width="600" height="400">
 </p>
+
 ```bash
     - MCP Server: The FastAPI server that exposes endpoints for client interactions.
     - OllamaAgent: The orchestrator that processes queries by combining web search and RAG.
@@ -91,6 +92,7 @@ The system consists of four main components that work together to provide RAG ca
 The following diagram illustrates how a user query flows through the system:
 
 <p align="center"><img src="img/i3.png" alt="[Core Components" width="600" height="400"></p>
+
 ## Technology Stack
 
 The MCP-RAG-Ollama system leverages multiple technologies and libraries:
@@ -115,7 +117,7 @@ The system can be deployed as follows:*
 
 <p align="center"><img src="img/i4.png" alt="Deployment Architecture" width="600" height="400"></p>
 
-Getting Started
+## Getting Started
 
 To use the MCP-RAG-Ollama system, you need to:
 
