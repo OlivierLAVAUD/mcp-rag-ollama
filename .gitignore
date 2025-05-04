@@ -16,3 +16,4 @@ app/__init__.py
 .env
 app/agent copy.py
 app/agent copy 2.py
+/docs

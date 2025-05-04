@@ -57,3 +57,76 @@ ou
 ```bash
 uv run agent.py "Votre question ici"
 ```
+
+
+
+# Technical Documentation
+
+## System Purpose
+
+MCP-RAG-Ollama serves as a versatile query answering system that combines the power of large language models with real-time information retrieval. It enables users to:
+
+    Get answers to questions using contextual knowledge from web searches
+    Implement RAG workflows with Ollama models
+    Access the system via both API endpoints and command-line interface
+
+
+
+## Architecture Overview
+The system follows a layered architecture pattern, separating client interactions, server operations, core processing, and external service integrations.
+
+[Architecture Overview](img/i1.jpg)
+
+
+### Core Components
+The system consists of four main components that work together to provide RAG capabilities:
+
+[Core Component](img/i2.jpg)
+
+```bash
+    - MCP Server: The FastAPI server that exposes endpoints for client interactions.
+    - OllamaAgent: The orchestrator that processes queries by combining web search and RAG.
+    - RAG Processor: Handles document processing, embedding generation, and similarity search.
+    - Web Searcher: Performs web searches and content extraction from relevant pages.
+```
+
+## Query Processing Flow
+The following diagram illustrates how a user query flows through the system:
+
+[Core Components](img/i3.jpg)
+
+
+## Technology Stack
+
+The MCP-RAG-Ollama system leverages multiple technologies and libraries:
+
+```bash
+Component	    Technologies
+Language        Model	Ollama (llama3.2)
+Embeddings  	Ollama (mistral)
+Vector          Storage	FAISS (CPU/GPU)
+Web             Framework	FastAPI, Uvicorn
+Search          Providers	Exa API, Firecrawl API
+Text            Processing	BeautifulSoup4, lxml
+RAG             Framework	LangChain, LangChain Community
+Configuration	python-dotenv
+```
+
+
+
+
+# Deployment Architecture
+The system can be deployed as follows:*
+
+[Deployment Architecture](img/i4.jpg)
+
+Getting Started
+
+To use the MCP-RAG-Ollama system, you need to:
+
+    1. Initialize Ollama with the required models
+    2. Configure your environment variables
+    3. Install the Python dependencies
+    4. Launch the MCP server or use the CLI agent directly
+
+For detailed setup instructions, please refer to Installation and Set
