@@ -17,3 +17,5 @@ app/__init__.py
 app/agent copy.py
 app/agent copy 2.py
 /docs
+/app/logs
+/versions
