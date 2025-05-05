@@ -3,29 +3,26 @@ from exa_py import Exa
 from typing import List, Tuple  
 from langchain_core.documents import Document  
 from config import config  
-import logging  
 import requests  
 from bs4 import BeautifulSoup  
 import re  
-  
-"""logging.basicConfig(level=logging.INFO)  
-logger = logging.getLogger(__name__)  """
-
-from utils.logging_utils import JSONLogger  
-json_logger = JSONLogger("web_searcher")
-for handler in json_logger.logger.handlers:
-    if isinstance(handler, logging.FileHandler):
-        handler.encoding = 'utf-8'  
+from utils.logging_service import LoggingService
 
 class WebSearcher:  
     def __init__(self):  
         self.exa = Exa(config.EXA_API_KEY)  
         self.headers = {  
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'  
+            'User-Agent': config.USER_AGENT
         }  
-  
+        self.logger = LoggingService().get_logger(self.__class__.__name__)
+
     async def execute(self, query: str) -> Tuple[str, List[Document]]:  
         try:  
+            self.logger.info(
+                "Exécution de la recherche",
+                extra={"query": query}
+            )
+            
             # Recherche avec Exa  
             results = await asyncio.to_thread(  
                 self.exa.search_and_contents,  
@@ -37,10 +34,27 @@ class WebSearcher:
               
             formatted = self._format_results(results)  
             docs = await self._fetch_clean_content([r.url for r in results.results])  
+            
+            self.logger.info(
+                "Recherche terminée",
+                extra={
+                    "query": query,
+                    "results_count": len(docs),
+                    "sources": [doc.metadata['source'] for doc in docs]
+                }
+            )
+            
             return formatted, docs  
               
         except Exception as e:  
-            logger.error(f"Erreur de recherche: {str(e)}")  
+            self.logger.error(
+                "Erreur de recherche",
+                exc_info=True,
+                extra={
+                    "query": query,
+                    "error": str(e)
+                }
+            )
             return "Erreur lors de la recherche", []  
   
     async def _fetch_clean_content(self, urls: List[str]) -> List[Document]:  
@@ -54,7 +68,13 @@ class WebSearcher:
                     metadata={"source": url}  
                 ))  
             except Exception as e:  
-                logger.warning(f"Échec sur {url}: {str(e)}")  
+                self.logger.warning(
+                    "Échec du chargement de l'URL",
+                    extra={
+                        "url": url,
+                        "error": str(e)
+                    }
+                )
                 docs.append(Document(  
                     page_content=f"Impossible de charger le contenu de {url}",  
                     metadata={"source": url, "error": True}  
@@ -89,7 +109,14 @@ class WebSearcher:
             return text[:5000]  # Limite raisonnable  
           
         except Exception as e:  
-            logger.warning(f"Échec du scraping {url}: {str(e)}")  
+            self.logger.warning(
+                "Échec du scraping",
+                exc_info=True,
+                extra={
+                    "url": url,
+                    "error": str(e)
+                }
+            )
             return f"Contenu non disponible - {str(e)}"  
   
     def _format_results(self, results) -> str:  
