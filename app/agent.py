@@ -1,5 +1,6 @@
 import asyncio
 import sys
+import logging  # <-- Import manquant ajouté ici
 from typing import Optional, List, Dict, Any
 from abc import ABC, abstractmethod
 from search import WebSearcher
@@ -8,49 +9,38 @@ from ollama import AsyncClient
 from config import config
 from langchain_core.documents import Document
 from langchain_ollama import OllamaLLM
-import logging
-from pathlib import Path
-
-from utils.logging_utils import JSONLogger
+from utils.logging_service import LoggingService
 
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
-# Configuration du logger
-LOG_DIR = Path("logs")
-LOG_DIR.mkdir(exist_ok=True)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(LOG_DIR/"agent.log", encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-
-logger = logging.getLogger(__name__)
-
-json_logger = JSONLogger("Agent")
-for handler in json_logger.logger.handlers:
-    if isinstance(handler, logging.FileHandler):
-        handler.encoding = 'utf-8'
-
 class BaseAgent(ABC):
     """Classe de base abstraite pour tous les agents"""
     def __init__(self):
+        self.logger = LoggingService().get_logger(self.__class__.__name__)
+        self.logging = LoggingService()
         self._init_logging()
         
     def _init_logging(self):
         """Initialise le logging pour l'agent"""
-        json_logger.log(logging.INFO, f"Initialisation de {self.__class__.__name__}")
+        self.logging.log_structured(
+            logging.INFO,
+            f"Initialisation de {self.__class__.__name__}",
+            self.__class__.__name__
+        )
 
     def _log_result(self, prompt: str, response: str):
         """Log le résultat complet"""
-        json_logger.log(logging.INFO, "Résultat de la requête", extra={
-            "prompt": prompt,
-            "response": response[:1000] + "..." if len(response) > 1000 else response
-        })
+        self.logging.log_structured(
+            logging.INFO,
+            "Résultat de la requête",
+            self.__class__.__name__,
+            {
+                "prompt": prompt,
+                "response_length": len(response),
+                "response_sample": response[:1000] + "..." if len(response) > 1000 else response
+            }
+        )
 
     @abstractmethod
     async def query(self, prompt: str) -> str:
@@ -62,6 +52,7 @@ class Summarizer:
         self.client = AsyncClient()
         self.model = model
         self.last_prompt = ""
+        self.logger = LoggingService().get_logger(self.__class__.__name__)
 
     async def summarize(self, text: str) -> str:
         """Génère une synthèse concise en français"""
@@ -72,9 +63,17 @@ class Summarizer:
                 prompt=self.last_prompt,
                 options={"temperature": 0.3}
             )
+            self.logger.info("Synthèse générée avec succès", extra={
+                "model": self.model,
+                "prompt_length": len(self.last_prompt),
+                "response_length": len(response['response'])
+            })
             return response['response']
         except Exception as e:
-            json_logger.log(logging.ERROR, f"Erreur lors de la synthèse", extra={"error": str(e)})
+            self.logger.error("Erreur lors de la synthèse", exc_info=True, extra={
+                "model": self.model,
+                "prompt": self.last_prompt[:200]
+            })
             return ""
 
 class OllamaAgent(BaseAgent):
@@ -87,7 +86,12 @@ class OllamaAgent(BaseAgent):
 
     async def query(self, prompt: str) -> str:
         try:
-            json_logger.log(logging.INFO, "Début du traitement", extra={"prompt": prompt})
+            self.logging.log_structured(
+                logging.INFO,
+                "Début du traitement",
+                self.__class__.__name__,
+                {"prompt": prompt}
+            )
             
             # 1. Recherche initiale
             initial_summary, docs = await self.searcher.execute(prompt)
@@ -128,7 +132,10 @@ class OllamaAgent(BaseAgent):
             return response
           
         except Exception as e:
-            json_logger.log(logging.ERROR, "Erreur lors du traitement", extra={"error": str(e)})
+            self.logger.error("Erreur lors du traitement", exc_info=True, extra={
+                "prompt": prompt,
+                "error": str(e)
+            })
             return "Désolé, une erreur s'est produite. Veuillez réessayer."
 
 class AnalysisAgent(BaseAgent):
@@ -147,7 +154,10 @@ class AnalysisAgent(BaseAgent):
             return response
           
         except Exception as e:
-            json_logger.log(logging.ERROR, "Erreur d'analyse", extra={"error": str(e)})
+            self.logger.error("Erreur d'analyse", exc_info=True, extra={
+                "text_sample": text[:200],
+                "error": str(e)
+            })
             return f"Erreur lors de l'analyse: {str(e)}"
 
 class GenerationAgent(BaseAgent):
@@ -168,7 +178,10 @@ class GenerationAgent(BaseAgent):
             return formatted_response
           
         except Exception as e:
-            json_logger.log(logging.ERROR, "Erreur de génération", extra={"error": str(e)})
+            self.logger.error("Erreur de génération", exc_info=True, extra={
+                "prompt": prompt,
+                "error": str(e)
+            })
             return f"Erreur lors de la génération: {str(e)}"
 
 async def main():
@@ -182,12 +195,17 @@ async def main():
     print(response)
     
     # Sauvegarde du résultat
-    with open(LOG_DIR / "reponse.txt", "w", encoding="utf-8") as f:
+    with open("logs/reponse.txt", "w", encoding="utf-8") as f:
         f.write(response)
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as e:
-        json_logger.log(logging.CRITICAL, "Erreur critique", extra={"error": str(e)})
+        LoggingService().log_structured(
+            logging.CRITICAL,
+            "Erreur critique",
+            "Main",
+            {"error": str(e)}
+        )
         raise

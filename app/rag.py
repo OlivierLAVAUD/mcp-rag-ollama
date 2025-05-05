@@ -3,17 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS  
 from langchain_core.documents import Document  
 from config import config  
-import logging  
-  
-"""logging.basicConfig(level=logging.INFO)  
-logger = logging.getLogger(__name__) """ 
-
-from utils.logging_utils import JSONLogger  
-json_logger = JSONLogger("rag_processor")
-for handler in json_logger.logger.handlers:
-    if isinstance(handler, logging.FileHandler):
-        handler.encoding = 'utf-8'
-  
+from utils.logging_service import LoggingService
 
 class RAGProcessor:  
     """  
@@ -21,6 +11,7 @@ class RAGProcessor:
     le découpage de texte et la recherche vectorielle.  
     """  
     def __init__(self):  
+        self.logger = LoggingService().get_logger(self.__class__.__name__)
         self.embeddings = OllamaEmbeddings(  
             model=config.EMBEDDING_MODEL,  
             base_url=config.OLLAMA_BASE_URL  
@@ -34,12 +25,24 @@ class RAGProcessor:
         """  
         Crée un vectorstore FAISS à partir d'une liste de documents  
         """ 
-        json_logger.log(logging.INFO, "Création vectorstore",   
-                   doc_count=len(documents)) 
-
-#        logger.info(f"Création du vectorstore à partir de {len(documents)} documents")  
+        self.logger.info(
+            "Création du vectorstore",
+            extra={
+                "doc_count": len(documents),
+                "chunk_size": config.CHUNK_SIZE,
+                "chunk_overlap": config.CHUNK_OVERLAP
+            }
+        )
+        
         split_docs = self.text_splitter.split_documents(documents)  
-#        logger.info(f"Documents découpés en {len(split_docs)} chunks")         
+        
+        self.logger.info(
+            "Documents découpés",
+            extra={
+                "initial_docs": len(documents),
+                "split_docs": len(split_docs)
+            }
+        )
          
         return await FAISS.afrom_documents(split_docs, self.embeddings)  
       
@@ -47,8 +50,23 @@ class RAGProcessor:
         """  
         Effectue une recherche de similarité dans le vectorstore  
         """ 
-        json_logger.log(logging.INFO, "Recherche de similarité pour: {query[:50]}...")  
- #       logger.info(f"Recherche de similarité pour: {query[:50]}...")  
-        return await vectorstore.asimilarity_search(query, k=k)
-    
+        self.logger.info(
+            "Recherche de similarité",
+            extra={
+                "query": query[:200],
+                "k": k
+            }
+        )
+        
+        results = await vectorstore.asimilarity_search(query, k=k)
+        
+        self.logger.info(
+            "Résultats de la recherche",
+            extra={
+                "query": query[:200],
+                "results_count": len(results)
+            }
+        )
+        
+        return results
     
