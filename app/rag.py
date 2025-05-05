@@ -9,7 +9,11 @@ import logging
 logger = logging.getLogger(__name__) """ 
 
 from utils.logging_utils import JSONLogger  
-json_logger = JSONLogger("rag_processor")  
+json_logger = JSONLogger("rag_processor")
+for handler in json_logger.logger.handlers:
+    if isinstance(handler, logging.FileHandler):
+        handler.encoding = 'utf-8'
+  
 
 class RAGProcessor:  
     """  

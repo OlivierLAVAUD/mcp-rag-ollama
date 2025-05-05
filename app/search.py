@@ -12,7 +12,10 @@ import re
 logger = logging.getLogger(__name__)  """
 
 from utils.logging_utils import JSONLogger  
-json_logger = JSONLogger("web_searcher")  
+json_logger = JSONLogger("web_searcher")
+for handler in json_logger.logger.handlers:
+    if isinstance(handler, logging.FileHandler):
+        handler.encoding = 'utf-8'  
 
 class WebSearcher:  
     def __init__(self):  

@@ -6,14 +6,17 @@ from config import config
 import logging  
 import uvicorn
 
-from utils.logging_utils import setup_logging, JSONLogger  
+
+from utils.logging_utils import JSONLogger  
+json_logger = JSONLogger("mcp_server")
+for handler in json_logger.logger.handlers:
+    if isinstance(handler, logging.FileHandler):
+        handler.encoding = 'utf-8'  
+
+# from utils.logging_utils import setup_logging, JSONLogger  
   
 # Configuration du logging au démarrage du serveur  
-setup_logging(log_level=logging.INFO, log_file="logs/mcp_server.log")  
-json_logger = JSONLogger("mcp_server")  
-  
-"""logging.basicConfig(level=logging.INFO)  
-logger = logging.getLogger(__name__) """ 
+#setup_logging(log_level=logging.INFO, log_file="logs/mcp_server.log")  
   
 app = FastAPI(  
     title="MCP A2A Server",  
@@ -36,32 +39,31 @@ class MCPServer:
         # Enregistrement des outils MCP  
         @self.mcp.tool()  
         async def search(query: str) -> str:  
-            """Recherche d'informations via les agents"""  
-            logger.info(f"Traitement de la requête de recherche: {query}")  
+            """Recherche d'informations via les agents"""
+            json_logger.log(logging.INFO, f"Traitement de la requête de recherche: {query}", query=query)   
+            #logger.info(f"Traitement de la requête de recherche: {query}")  
             return await self.orchestrator.process_query(query, agent_type="search")  
               
         @self.mcp.tool()  
         async def analyze(text: str) -> str:  
             """Analyse de texte via les agents"""  
-            logger.info(f"Traitement de la requête d'analyse: {text[:50]}...")  
+            json_logger.log(logging.INFO, f"Traitement de la requête d'analyse: {text[:50]}...")  
+            #logger.info(f"Traitement de la requête d'analyse: {text[:50]}...")  
             return await self.orchestrator.process_query(text, agent_type="analyze")  
               
         @self.mcp.tool()  
         async def generate(prompt: str) -> str:  
-            """Génération de contenu via les agents"""  
-            logger.info(f"Traitement de la requête de génération: {prompt[:50]}...")  
+            """Génération de contenu via les agents"""
+            json_logger.log(logging.INFO, f"Traitement de la requête de génération: {prompt[:50]}...")  
+            #logger.info(f"Traitement de la requête de génération: {prompt[:50]}...")  
             return await self.orchestrator.process_query(prompt, agent_type="generate")  
-          
+
         @self.mcp.tool()  
         async def health() -> dict:  
             """Vérification de l'état du serveur"""  
             return {"status": "ok", "version": "1.0"}  
   
-        @self.mcp.tool()  
-        async def search(query: str) -> str:  
-            """Recherche d'informations via les agents"""  
-            json_logger.log(logging.INFO, "Requête de recherche reçue", query=query)  
-            return await self.orchestrator.process_query(query, agent_type="search")
+
 
 # Initialisation  
 server = MCPServer(app)  
