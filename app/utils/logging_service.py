@@ -6,6 +6,7 @@ from datetime import datetime
 from logging.handlers import RotatingFileHandler
 import sys
 
+
 class JSONFormatter(logging.Formatter):
     def format(self, record):
         log_entry = {
