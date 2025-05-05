@@ -31,5 +31,6 @@ class Config:
     # Serveur
     MCP_HOST: str = os.getenv("MCP_HOST", "0.0.0.0")
     MCP_PORT: int = int(os.getenv("MCP_PORT", 8000))
+    DEBUG: bool = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")  
 
 config = Config()
