@@ -1,10 +1,14 @@
-import logging
-from pathlib import Path
-from typing import Dict, Any, Optional
-import json
-from datetime import datetime
-from logging.handlers import RotatingFileHandler
-import sys
+from    config import config
+
+import  json
+import  sys
+from    pathlib import Path
+from    typing import Dict, Any, Optional
+from    datetime import datetime
+
+import  logging
+from    logging.handlers import RotatingFileHandler
+
 
 
 class JSONFormatter(logging.Formatter):
@@ -35,19 +39,17 @@ class LoggingService:
         self._configure_logging()
     
     def _configure_logging(self):
-        LOG_DIR = Path("logs")
+        LOG_DIR = Path(config.LOGGING_DIR)
         LOG_DIR.mkdir(exist_ok=True)
         
-        # Configuration de base
         logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            level=config.SERVER_LOG_LEVEL.upper(),
             handlers=[
                 RotatingFileHandler(
                     LOG_DIR/"application.log",
-                    maxBytes=10*1024*1024,
-                    backupCount=5,
-                    encoding='utf-8'
+                    maxBytes=config.LOGGING_MAX_SIZE*1024*1024,
+                    backupCount=config.LOGGING_BACKUP_COUNT,
+                    encoding=config.LOGGING_ENCODING
                 ),
                 logging.StreamHandler(sys.stdout)
             ]

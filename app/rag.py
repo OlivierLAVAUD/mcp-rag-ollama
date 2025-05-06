@@ -17,8 +17,8 @@ class RAGProcessor:
             base_url=config.OLLAMA_BASE_URL  
         )  
         self.text_splitter = RecursiveCharacterTextSplitter(  
-            chunk_size=config.CHUNK_SIZE,  
-            chunk_overlap=config.CHUNK_OVERLAP  
+            chunk_size=config.RAG_CHUNK_SIZE,
+            chunk_overlap=config.RAG_CHUNK_OVERLAP  
         )  
       
     async def create_from_documents(self, documents: list[Document]) -> FAISS:  
@@ -29,8 +29,8 @@ class RAGProcessor:
             "Création du vectorstore",
             extra={
                 "doc_count": len(documents),
-                "chunk_size": config.CHUNK_SIZE,
-                "chunk_overlap": config.CHUNK_OVERLAP
+                "chunk_size": config.RAG_CHUNK_SIZE,
+                "chunk_overlap": config.RAG_CHUNK_OVERLAP
             }
         )
         
