@@ -37,11 +37,14 @@ Un agent conversationnel intelligent implémentant le protocole MCP (Machine Con
 
 ## Installation
 
-0. Installer Ollama sur votre systeme (Unix ou Windows)(https://ollama.com/) et charger les modeles LLM
+0. Ollama
+->  Installation sur votre systeme (Unix ou Windows) (https://ollama.com/)
+->  Charger les modeles LLMs
 ```bash
 # Exemple: Chargement du modele "mistral"
 ollama pull mistral
-# Lancement du serveur le serveur
+
+# Lancement du serveur sur une session terminal indépendante.
 ollama serve
 ```
 
@@ -51,19 +54,23 @@ git clone https://github.com/votre-repo/ollama-rag-agent.git
 cd ollama-rag-agent
 ```
 
-2. Creer l'environnement avec uv (plus rapide et fiable) et installer les dépendances :
+2. Installer les dépendances :
+->  Creer l'environnement avec uv (plus rapide et fiable)
 ```bash
 uv venv .venv
 .venv\scripts\activate # Windows
+#ou 
 source .venv\scripts\activate # Unix
-
+#puis
 uv pip install -r requirements.txt
 ```
 
-3. Configurer l'environnement :
+3. Configurer l'environnement de l'application et ses paramètres :
 ```bash
-cp .env.sample .env
-# Éditer le fichier .env avec vos configurations
+# Éditer le fichier .env puis ajoutez vos configurations (basée sur  .env sample)
+cp .env.sample .env #Unix
+edit .env           #Windows
+
 ```
 
 4. Lancer le serveur mcp
