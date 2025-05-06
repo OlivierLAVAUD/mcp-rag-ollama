@@ -45,19 +45,24 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 
 ## Architecture technique
 
-```markdown
+````markdown
+```text
+project-root/
+│
 ├── app/
-│ ├── agent.py # Agents principaux (recherche, analyse, génération)
-│ ├── agent_orchestrator.py # Orchestration des agents
-│ ├── config.py # Configuration centrale
-│ ├── mcp_server.py # Serveur FastAPI implémentant MCP
-│ ├── rag.py # Traitement RAG
-│ ├── search.py # Recherche web avancée
-│ └── utils/
-│ └── logging_service.py # Service de logging structuré
-├── pyproject.toml # Configuration du projet
-├── requirements.txt # Dépendances Python
-└── .env.sample # Configuration d'environnement
+│   ├── agent.py                 # Main agents (research, analysis, generation)
+│   ├── agent_orchestrator.py    # Agent coordination logic
+│   ├── config.py                # Central configuration
+│   ├── mcp_server.py            # FastAPI MCP implementation
+│   ├── rag.py                   # RAG processing
+│   ├── search.py                # Advanced web search
+│   │
+│   └── utils/
+│       └── logging_service.py   # Structured logging service
+│
+├── pyproject.toml               # Project configuration
+├── requirements.txt             # Python dependencies
+└── .env.sample                  # Environment template
 ```
 
 ## Prérequis
