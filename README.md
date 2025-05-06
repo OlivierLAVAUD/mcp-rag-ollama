@@ -118,9 +118,8 @@ edit .env           #Windows
 ```
 
 ## Utilisation
-Lancer le serveur MCP
 
-### Lancer le serveur mcp
+### Lancer le serveur MCP
 ```bash
 cd app
 uv run mcp_server.py
