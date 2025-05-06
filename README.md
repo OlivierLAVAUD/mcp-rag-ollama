@@ -162,61 +162,6 @@ Ce projet est sous licence MIT - voir le fichier LICENCE.md pour plus de détail
 Olivier Lavaud - 2025
 
 
-# Schéma MCP : Fonctionnement Central
-
-```mermaid
-    subgraph MCP_Core["🔷 MCP Server (FastAPI)"]
-        A[Endpoint /mcp] --> B[Auth & Validation]
-        B --> C[Task Decomposition]
-        C --> D[Agent Selection]
-        D --> E[Parallel Execution]
-        E --> F[Result Aggregation]
-    end
-
-    subgraph Agents["⚙️ Agents Modules"]
-        E --> G[ResearchAgent]
-        E --> H[AnalysisAgent]
-        E --> I[GenerationAgent]
-    end
-
-    subgraph External["🌐 Externals"]
-        G --> J[(Web APIs)]
-        H --> K[(Vector DB)]
-        I --> L[LLM API]
-    end
-
-    F --> M[Response Formatting]
-    M --> N[/Client/]
-```
-
-## Flux Critique :
-
-    Découpage des tâches : Le MCP analyse la requête pour identifier les sous-tâches.
-    *Exemple : "Recherche sur X + analyse comparative + synthèse" → 3 jobs parallèles*.
-
-    Sélection dynamique : Utilise le config.py pour router vers les agents compétents.
-
-    Exécution parallèle : Chaque agent travaille isolément avec son propre contexte.
-
-    Aggrégation intelligente : Fusion des résultats partiels avec gestion des conflits.
-
-## Séquence API Typique
-
-```mermaid
-    participant C as Client
-    participant M as MCP
-    participant R as ResearchAgent
-    participant A as AnalysisAgent
-
-    C ->> M: POST /mcp {query: "Comparer React et Svelte"}
-    M ->> R: Task: "Recherche React"
-    M ->> A: Task: "Recherche Svelte"
-    R ->> M: Results (React)
-    A ->> M: Results (Svelte)
-    M ->> M: Cross-Analysis
-    M ->> C: 200 OK {comparison: [...]}
-```
-
 # Technical Documentation
 ## System Purpose
 
