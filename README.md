@@ -44,7 +44,8 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 - 📝**Traitement avancé** : Extraction, nettoyage et analyse de contenu web
 
 ## Architecture technique
-```bash
+
+````markdown
 .
 ├── app/
 │ ├── agent.py # Agents principaux (recherche, analyse, génération)
