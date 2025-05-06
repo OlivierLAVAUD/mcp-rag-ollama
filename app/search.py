@@ -10,9 +10,9 @@ from utils.logging_service import LoggingService
 
 class WebSearcher:  
     def __init__(self):  
-        self.exa = Exa(config.EXA_API_KEY)  
+        self.exa = Exa(config.SEARCH_API_KEY)  
         self.headers = {  
-            'User-Agent': config.USER_AGENT
+            'User-Agent': config.SEARCH_PROVIDER
         }  
         self.logger = LoggingService().get_logger(self.__class__.__name__)
 
@@ -27,8 +27,8 @@ class WebSearcher:
             results = await asyncio.to_thread(  
                 self.exa.search_and_contents,  
                 query,  
-                num_results=3,  
-                use_autoprompt=True,  
+                num_results=config.SEARCH_MAX_RESULTS,  # Nombre de résultats depuis config
+                use_autoprompt=config.SEARCH_AUTOPROMPT,  
                 text={"include_html_tags": False}  
             )  
               
