@@ -1,4 +1,5 @@
-# MCP-LLM-RAG-ChatBot - MCP SEARCH ANALYSIS & GENERATIVE AGENT
+# NEXUS-MCP-LLM-RAG
+## MCP SEARCH ANALYSIS & GENERATIVE AGENT
 ## Search 🔍,Analysis 📊 and Generate ✍️ on listed web sources
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -47,7 +48,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 ## Architecture technique
 
 ```markdown
-MCP-LLM-RAG-ChatBot/
+NEXUS-MCP-LLM-RAG/
 │
 ├── app/
 │   ├── agent.py                 # Main agents (research, analysis, generation)
