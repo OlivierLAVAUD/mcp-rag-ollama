@@ -1,4 +1,4 @@
-# NexusCore - MCP RAG Agent avec Ollama
+# NexusCore - MCP OLLAMA RAG AGENT - Search, Synthetise and Generate from sources
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -45,8 +45,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 
 ## Architecture technique
 
-````markdown
-```text
+```markdown
 NexusCore/
 │
 ├── app/
