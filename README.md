@@ -1,29 +1,47 @@
-# Ollama RAG Analysis Agent
+# MCP RAG Agent avec Ollama
 
-Un agent intelligent qui combine recherche web, RAG (Retrieval-Augmented Generation) et analyse LLM pour fournir des réponses enrichies avec évaluation automatique de qualité.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Un agent conversationnel intelligent implémentant le protocole MCP (Machine Conversation Protocol) avec capacités RAG (Retrieval-Augmented Generation) utilisant Ollama comme backend LLM.
 
 ## Fonctionnalités clés
 
-- 🔍 **Recherche web avancée** avec extraction des contenus pertinents
-- 📚 **Intégration RAG** pour contextualiser les réponses
-- 🤖 **Analyse automatique** des réponses par LLM (Ollama)
-- ✅ **Évaluation de qualité** : pertinence, cohérence, biais, clarté
-- ✨ **Résumé automatique** des points clés
-- 📝 **Gestion transparente des sources** avec tracking complet
+- 📚**Recherche augmentée** : Combinaison de recherche web et RAG pour des réponses précises
+- 🤖 **Multi-agents** : Architecture modulaire avec agents spécialisés
+- ✅**Protocole MCP** : Implémentation du standard de conversation machine-to-machine
+- ✨**Intégration Ollama** : Utilisation des modèles LLM locaux via Ollama
+- 📝**Traitement avancé** : Extraction, nettoyage et analyse de contenu web
 
+## Architecture technique
+```bash
+.
+├── app/
+│ ├── agent.py # Agents principaux (recherche, analyse, génération)
+│ ├── agent_orchestrator.py # Orchestration des agents
+│ ├── config.py # Configuration centrale
+│ ├── mcp_server.py # Serveur FastAPI implémentant MCP
+│ ├── rag.py # Traitement RAG
+│ ├── search.py # Recherche web avancée
+│ └── utils/
+│ └── logging_service.py # Service de logging structuré
+├── pyproject.toml # Configuration du projet
+├── requirements.txt # Dépendances Python
+└── .env.sample # Configuration d'environnement
+```
 ## Prérequis
 
-- Python 3.9+
-- Ollama installé et configuré (serveur local ou distant)
-- Modèle LLM compatible (par défaut: `mistral`)
+- Python 3.10+
+- Ollama installé localement avec au moins un modèle (ex: `llama3`)
+- Clé API pour un fournisseur de recherche (Exa ou Firecrawl)
+
 
 ## Installation
 
-0. Ollama
+0. Installer Ollama sur votre systeme (Unix ou Windows)(https://ollama.com/) et charger les modeles LLM
 ```bash
-# Charger les modeles
+# Exemple: Chargement du modele "mistral"
 ollama pull mistral
-# Lancer le serveur
+# Lancement du serveur le serveur
 ollama serve
 ```
 
@@ -33,7 +51,7 @@ git clone https://github.com/votre-repo/ollama-rag-agent.git
 cd ollama-rag-agent
 ```
 
-2. Creer l'environnement et installer les packages python 
+2. Creer l'environnement avec uv (plus rapide et fiable) et installer les dépendances :
 ```bash
 uv venv .venv
 .venv\scripts\activate # Windows
@@ -42,12 +60,18 @@ source .venv\scripts\activate # Unix
 uv pip install -r requirements.txt
 ```
 
-3. Lancer le serveur mcp
+3. Configurer l'environnement :
+```bash
+cp .env.sample .env
+# Éditer le fichier .env avec vos configurations
+```
+
+4. Lancer le serveur mcp
 ```bash
 cd app
 uv run mcp_server.py
 ```
-##   Utiliser l'agent en CLI :
+5. Utiliser l'agent en CLI :
 
 ```bash
 python agent.py "Votre question ici"
@@ -57,7 +81,6 @@ ou
 ```bash
 uv run agent.py "Votre question ici"
 ```
-
 
 
 # Technical Documentation
