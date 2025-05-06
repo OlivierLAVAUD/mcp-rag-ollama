@@ -74,8 +74,10 @@ NexusCore/
 ## Installation
 
 0. Ollama
-->  Installation sur votre systeme (Unix ou Windows) (https://ollama.com/)
-->  Charger les modeles LLMs
+
+- Installation sur votre systeme (Unix ou Windows) (https://ollama.com/)
+-  Charger les modeles LLMs
+
 ```bash
 # Exemple: Chargement du modele "mistral"
 ollama pull mistral
