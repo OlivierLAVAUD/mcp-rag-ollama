@@ -1,4 +1,5 @@
-# NexusCore - MCP OLLAMA RAG AGENT - Search 🔍,Analysis 📊 and Generate ✍️ from web sources.
+# NexusCore - MCP OLLAMA RAG AGENT
+## Search 🔍,Analysis 📊 and Generate ✍️ on listed web sources
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
