@@ -13,7 +13,7 @@ Cette application est un agent conversationnel intelligent qui combine plusieurs
 
 1. **Protocole MCP:(Model Context Protocol )** : Une nouvelle norme open source permettant de connecter efficacement les modèles d’IA aux systèmes de données existants, tout en facilitant leur intégration dans des environnements professionnels variés.
 
-2. **RAG avec Ollama** : 
+2. **Architecture RAG & Modeles LLM avec Ollama** : 
    - Utilisation de modèles LLM locaux via Ollama
    - Pipeline complet de traitement des documents (extraction, découpage, embedding)
    - Recherche vectorielle avec FAISS (CPU/GPU)
