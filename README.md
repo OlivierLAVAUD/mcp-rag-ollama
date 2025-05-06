@@ -4,6 +4,37 @@
 
 Un agent conversationnel intelligent implémentant le protocole MCP (Machine Conversation Protocol) avec capacités RAG (Retrieval-Augmented Generation) utilisant Ollama comme backend LLM.
 
+
+## Présentation de l'application
+
+Cette application est un agent conversationnel intelligent qui combine plusieurs technologies avancées :
+
+1. **Protocole MCP** : Une implémentation du standard de communication machine-to-machine pour les agents IA, permettant une intégration standardisée avec d'autres systèmes.
+
+2. **RAG avec Ollama** : 
+   - Utilisation de modèles LLM locaux via Ollama
+   - Pipeline complet de traitement des documents (extraction, découpage, embedding)
+   - Recherche vectorielle avec FAISS (CPU/GPU)
+
+3. **Architecture multi-agents** :
+   - Agent de recherche (combine recherche web et RAG)
+   - Agent d'analyse (analyse sémantique et statistique)
+   - Agent de génération (création de contenu)
+
+4. **Fonctionnalités avancées** :
+   - Logging structuré pour le débogage
+   - Configuration centralisée
+   - Support multi-fournisseurs de recherche (Exa, Firecrawl)
+   - Gestion automatique des erreurs
+
+L'application est particulièrement adaptée pour :
+- Les assistants virtuels intelligents
+- Les systèmes de recherche d'information augmentée
+- Les outils d'analyse de contenu
+- Les générateurs de contenu automatisés
+
+Le système est conçu pour être extensible avec de nouveaux agents et capacités tout en maintenant une architecture propre et modulaire.
+
 ## Fonctionnalités clés
 
 - 📚**Recherche augmentée** : Combinaison de recherche web et RAG pour des réponses précises
@@ -73,22 +104,57 @@ edit .env           #Windows
 
 ```
 
-4. Lancer le serveur mcp
+## Utilisation
+Lancer le serveur MCP
+
+### Lancer le serveur mcp
 ```bash
 cd app
 uv run mcp_server.py
 ```
-5. Utiliser l'agent en CLI :
+Le serveur sera accessible sur http://localhost:8000 avec les endpoints suivants :
+
+    . POST /search - Recherche augmentée
+    . POST /analyze - Analyse de texte
+    . POST /generate - Génération de contenu
+    .  GET /health - Vérification de l'état du serveur
+
+
+### Utilisation en ligne de commande:
 
 ```bash
-python agent.py "Votre question ici"
+python agent.py "Votre requête ici"
 ```
 ou 
 
 ```bash
-uv run agent.py "Votre question ici"
+uv run agent.py "Votre requête ici"
 ```
 
+## Configuration
+
+Les paramètres principaux sont configurables via le fichier .env :
+```bash
+# Modèle Ollama
+OLLAMA_MODEL=llama3.2
+OLLAMA_BASE_URL=http://localhost:11434
+
+# Paramètres RAG
+RAG_CHUNK_SIZE=4096
+RAG_CHUNK_OVERLAP=512
+
+# Fournisseur de recherche
+SEARCH_PROVIDER=exa  # ou firecrawl
+EXA_API_KEY=votre_cle_api
+```
+
+## Licence
+
+Ce projet est sous licence MIT - voir le fichier LICENCE.md pour plus de détails.
+
+## Auteur
+
+Olivier Lavaud - 2025
 
 # Technical Documentation
 
