@@ -11,7 +11,7 @@ Un agent conversationnel intelligent implémentant le protocole MCP (Machine Con
 
 Cette application est un agent conversationnel intelligent qui combine plusieurs technologies avancées :
 
-1. **Protocole MCP** : Une implémentation du standard de communication Agent-2-Agent pour les agents IA, permettant une intégration standardisée avec d'autres systèmes.
+1. **Protocole MCP:(Model Context Protocol )** : Une nouvelle norme open source permettant de connecter efficacement les modèles d’IA aux systèmes de données existants, tout en facilitant leur intégration dans des environnements professionnels variés.
 
 2. **RAG avec Ollama** : 
    - Utilisation de modèles LLM locaux via Ollama
