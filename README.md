@@ -1,4 +1,4 @@
-# MCP RAG Agent avec Ollama
+# NexusCore - MCP RAG Agent avec Ollama
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -47,7 +47,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 
 ````markdown
 ```text
-project-root/
+NexusCore/
 │
 ├── app/
 │   ├── agent.py                 # Main agents (research, analysis, generation)
