@@ -96,10 +96,14 @@ cd ollama-rag-agent
 ->  Creer l'environnement avec uv (plus rapide et fiable)
 ```bash
 uv venv .venv
-.venv\scripts\activate # Windows
-#ou 
+
+# pour Windows
+.venv\scripts\activate 
+
+# pour Unix
 source .venv\scripts\activate # Unix
-#puis
+
+# puis installez les dépendances
 uv pip install -r requirements.txt
 ```
 
