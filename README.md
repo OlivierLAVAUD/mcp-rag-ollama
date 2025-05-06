@@ -1,4 +1,4 @@
-# NexusCore - MCP OLLAMA RAG AGENT - 🔍Search, 📊 Analysis and ✍️ Generate from sources
+# NexusCore - MCP OLLAMA RAG AGENT - Search 🔍,Analysis 📊 and Generate ✍️ from web sources.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -164,7 +164,7 @@ Olivier Lavaud - 2025
 
 # Schéma MCP : Fonctionnement Central
 
-```flowchart TB
+```mermaid
     subgraph MCP_Core["🔷 MCP Server (FastAPI)"]
         A[Endpoint /mcp] --> B[Auth & Validation]
         B --> C[Task Decomposition]
@@ -202,7 +202,7 @@ Olivier Lavaud - 2025
 
 ## Séquence API Typique
 
-```sequenceDiagram
+```mermaid
     participant C as Client
     participant M as MCP
     participant R as ResearchAgent
