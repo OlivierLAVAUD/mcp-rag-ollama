@@ -1,4 +1,4 @@
-# NexusCore - MCP OLLAMA RAG AGENT
+# MCP-LLM-RAG-ChatBot - MCP SEARCH ANALYSIS & GENERATIVE AGENT
 ## Search 🔍,Analysis 📊 and Generate ✍️ on listed web sources
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -47,7 +47,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 ## Architecture technique
 
 ```markdown
-NexusCore/
+MCP-LLM-RAG-ChatBot/
 │
 ├── app/
 │   ├── agent.py                 # Main agents (research, analysis, generation)
