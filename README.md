@@ -45,8 +45,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 
 ## Architecture technique
 
-````markdown
-.
+```markdown
 ├── app/
 │ ├── agent.py # Agents principaux (recherche, analyse, génération)
 │ ├── agent_orchestrator.py # Orchestration des agents
@@ -60,6 +59,7 @@ Le système est conçu pour être extensible avec de nouveaux agents et capacit�
 ├── requirements.txt # Dépendances Python
 └── .env.sample # Configuration d'environnement
 ```
+
 ## Prérequis
 
 - Python 3.10+
