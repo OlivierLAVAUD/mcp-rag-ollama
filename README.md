@@ -128,7 +128,7 @@ Le serveur sera accessible sur http://localhost:8000 avec les endpoints suivants
     . POST /search - Recherche augmentée
     . POST /analyze - Analyse de texte
     . POST /generate - Génération de contenu
-    .  GET /health - Vérification de l'état du serveur
+    . GET /health - Vérification de l'état du serveur
 
 
 ### Utilisation en ligne de commande:
