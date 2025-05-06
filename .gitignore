@@ -19,3 +19,5 @@ app/agent copy 2.py
 /docs
 /app/logs
 /versions
+/app/logs copy
+/app/versions_logs
