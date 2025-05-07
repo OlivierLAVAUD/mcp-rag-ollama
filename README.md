@@ -11,7 +11,7 @@ Un agent conversationnel intelligent implémentant le protocole Model Context Pr
 
 Cette application est un agent conversationnel intelligent qui combine plusieurs technologies avancées :
 
-1. **Protocole MCP:(Model Context Protocol )** : Une nouvelle norme open source permettant de connecter efficacement les modèles d’IA aux systèmes de données existants, tout en facilitant leur intégration dans des environnements professionnels variés.
+1. **Conformité avec le Protocole MCP(Model Context Protocol )** : Le Model Context Protocol (MCP) est un cadre standardisé permettant de définir et de gérer le contexte des agents IA, garantissant une meilleure interopérabilité, traçabilité et explicabilité. Dans ce système multi-agents, le MCP permet d’uniformiser la communication entre agents en encapsulant leurs métadonnées, leurs capacités et leurs contraintes.
 
 2. **Architecture RAG & Modeles LLM avec Ollama** : 
    - Utilisation de modèles LLM locaux via Ollama
