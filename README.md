@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Un agent conversationnel intelligent implémentant le protocole MCP (Machine Conversation Protocol) avec capacités RAG (Retrieval-Augmented Generation) utilisant Ollama comme backend LLM.
+Un agent conversationnel intelligent implémentant le protocole Model Context Protocol (MCP) avec capacités RAG (Retrieval-Augmented Generation) utilisant Ollama comme backend LLM.
 
 
 ## Présentation de l'application
