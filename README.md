@@ -69,16 +69,19 @@ NEXUS-MCP-LLM-RAG/
 ## Prérequis
 
 - Python 3.10+
-- Ollama installé localement avec au moins un modèle (ex: `llama3`)
+- Ollama installé localement avec au moins un modèle (ex: `llama3`) (https://ollama.com/)
 - Clé API pour un fournisseur de recherche (Exa ou Firecrawl)
 
 
 ## Installation
 
-0. Ollama
+- Cloner le dépôt :
+```bash
+git clone https://github.com/OlivierLAVAUD/mcp-rag-ollama
+cd ollama-rag-agent
+```
 
-- Installation sur votre systeme (Unix ou Windows) (https://ollama.com/)
--  Charger les modeles LLMs
+- Charger les modèles LLM à partir d'ollama et lancer le serveur ollama
 
 ```bash
 # Exemple: Chargement du modele "mistral"
@@ -88,59 +91,25 @@ ollama pull mistral
 ollama serve
 ```
 
-1. Cloner le dépôt :
+- Créez & modifiez votre fichier de configuration/paramètrage .env :
 ```bash
-git clone https://github.com/votre-repo/ollama-rag-agent.git
-cd ollama-rag-agent
-```
-
-2. Installer les dépendances :
-->  Creer l'environnement avec uv (plus rapide et fiable)
+# Creez le fichier .env sur le template .env sample fournit et modifiez le. (voir Configuration)
 ```bash
-uv venv .venv
-
-# pour Windows
-.venv\scripts\activate 
-
-# pour Unix
-source .venv\scripts\activate # Unix
-
-# puis installez les dépendances
-uv pip install -r requirements.txt
-```
-
-3. Configurer l'environnement de l'application et ses paramètres :
-```bash
-# Éditer le fichier .env puis ajoutez vos configurations (basée sur  .env sample)
-cp .env.sample .env #Unix
-edit .env           #Windows
-
+    cp .env.sample .env 
+    edit .env           
 ```
 
 ## Utilisation
 
 ### Lancer le serveur MCP
 ```bash
-cd app
-uv run mcp_server.py
+    uv run app/mcp_server.py
 ```
-Le serveur sera accessible sur http://localhost:8000 avec les endpoints suivants :
 
-    . POST /search - Recherche augmentée
-    . POST /analyze - Analyse de texte
-    . POST /generate - Génération de contenu
-    . GET /health - Vérification de l'état du serveur
-
-
-### Utilisation en ligne de commande:
+### Lancer une requête à l'Agent
 
 ```bash
-python agent.py "Votre requête ici"
-```
-ou 
-
-```bash
-uv run agent.py "Votre requête ici"
+    uv run app/agent.py "Donne moi les dernières actualités à propos des Agents IA"
 ```
 
 ## Configuration
@@ -148,16 +117,25 @@ uv run agent.py "Votre requête ici"
 Les paramètres principaux sont configurables via le fichier .env :
 ```bash
 # Modèle Ollama
+# === Génération Configuration du Modèle LLM via Ollama ===
 OLLAMA_MODEL=llama3.2
 OLLAMA_BASE_URL=http://localhost:11434
+EMBEDDING_MODEL=llama3.2
 
-# Paramètres RAG
+OLLAMA_MODEL_TEMPERATURE=0.7  # Contrôle la créativité (0-1)
+OLLAMA_MODEL_MAX_TOKENS=1024  # Nombre maximum de tokens générés
+OLLAMA_MODEL_TOP_P=0.75       # Filtrage par noyau (0-1)
+
+# === Paramètres RAG ===
 RAG_CHUNK_SIZE=4096
 RAG_CHUNK_OVERLAP=512
+RAG_RESULTS=5
 
 # Fournisseur de recherche
 SEARCH_PROVIDER=exa  # ou firecrawl
 EXA_API_KEY=votre_cle_api
+...
+
 ```
 
 ## Licence

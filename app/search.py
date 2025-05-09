@@ -27,7 +27,7 @@ class WebSearcher:
             results = await asyncio.to_thread(  
                 self.exa.search_and_contents,  
                 query,  
-                num_results=config.SEARCH_MAX_RESULTS,  # Nombre de résultats depuis config
+                num_results=config.SEARCH_MAX_RESULTS,  
                 use_autoprompt=config.SEARCH_AUTOPROMPT,  
                 text={"include_html_tags": False}  
             )  

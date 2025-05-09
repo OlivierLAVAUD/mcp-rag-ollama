@@ -1,9 +1,41 @@
 [project]
-name = "mcp-rag"
-version = "1.0.2"
-description = "MCP RAG OLLAMA"
+name = "MCP-RAG-Agent"
+version = "0.1.0"
+description = "A MCP RAG Agentt with FastMCP, Langchain, Ollama"
+authors = [
+    {name = "Olivier LAVAUD", email = "olivier.lavaud@gmail.com"},
+]
 readme = "README.md"
 requires-python = ">=3.10"
+license = {text = "MIT"}
+
 dependencies = [
-    "langchain-community>=0.3.23",
+"fastmcp",
+"langchain_community",
+"langchain-ollama",
+"exa-py",
+"firecrawl",
+"python-dotenv",
+"uvicorn",
+"fastapi",
+"faiss-cpu", # faiss-gpu # unix uniquement
+"beautifulsoup4",
+"requests",
+
+"lxml",
 ]
+
+[project.optional-dependencies]
+unix = [
+    "faiss-gpu",
+]
+windows = [
+    "faiss-cpu",
+]
+
+[project.urls]
+Homepage = "https://github.com/OlivierLAVAUD/mcp-rag-ollama"
+Documentation = "https://github.com/OlivierLAVAUD/mcp-rag-ollama#readme"
+Repository = "https://github.com/OlivierLAVAUD/mcp-rag-ollama"
+Issues = "https://github.com/OlivierLAVAUD/mcp-rag-ollama/issues"
+

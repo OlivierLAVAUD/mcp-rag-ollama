@@ -21,3 +21,6 @@ app/agent copy 2.py
 /versions
 /app/logs copy
 /app/versions_logs
+/logs
+pyproject copy 2.toml
+pyproject copy.toml
