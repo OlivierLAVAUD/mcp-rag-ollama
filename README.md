@@ -1,5 +1,5 @@
 # MCP-RAG-AI-AGENT
-## MCP SEARCH ANALYSIS & GENERATIVE AGENT
+## A MCP AI AGENT for SEARCH ANALYSIS & GENERATIVE TASKS
 ## Search 🔍,Analysis 📊 and Generate ✍️ on listed web sources
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
