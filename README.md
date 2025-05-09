@@ -1,4 +1,4 @@
-# NEXUS-MCP-LLM-RAG
+# MCP-RAG-AI-AGENT
 ## MCP SEARCH ANALYSIS & GENERATIVE AGENT
 ## Search 🔍,Analysis 📊 and Generate ✍️ on listed web sources
 
