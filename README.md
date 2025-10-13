@@ -3,48 +3,49 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Un agent conversationnel intelligent implémentant le protocole Model Context Protocol (MCP) avec capacités RAG (Retrieval-Augmented Generation) utilisant Ollama comme backend LLM.
+An intelligent conversational agent implementing the Model Context Protocol (MCP) with RAG (Retrieval-Augmented Generation) capabilities using Ollama as the LLM backend.
+Application Overview
 
+This application is an intelligent conversational agent that combines several advanced technologies:
 
-## Présentation de l'application
+    Compliance with the MCP (Model Context Protocol): The Model Context Protocol (MCP) is a standardized framework for defining and managing the context of AI agents, ensuring better interoperability, traceability, and explainability. In this multi-agent system, the MCP standardizes communication between agents by encapsulating their metadata, capabilities, and constraints.
 
-Cette application est un agent conversationnel intelligent qui combine plusieurs technologies avancées :
+    RAG Architecture & LLM Models with Ollama:
 
-1. **Conformité avec le Protocole MCP(Model Context Protocol )** : Le Model Context Protocol (MCP) est un cadre standardisé permettant de définir et de gérer le contexte des agents IA, garantissant une meilleure interopérabilité, traçabilité et explicabilité. Dans ce système multi-agents, le MCP permet d’uniformiser la communication entre agents en encapsulant leurs métadonnées, leurs capacités et leurs contraintes.
+        Use of local LLM models via Ollama
+        Complete document processing pipeline (extraction, chunking, embedding)
+        Vector search with FAISS (CPU/GPU)
 
-2. **Architecture RAG & Modeles LLM avec Ollama** : 
-   - Utilisation de modèles LLM locaux via Ollama
-   - Pipeline complet de traitement des documents (extraction, découpage, embedding)
-   - Recherche vectorielle avec FAISS (CPU/GPU)
+    Multi-Agent Architecture:
 
-3. **Architecture multi-agents** :
-   - Agent de recherche (combine recherche web et RAG)
-   - Agent d'analyse (analyse sémantique et statistique)
-   - Agent de génération (création de contenu)
+        Search Agent (combines web search and RAG)
+        Analysis Agent (semantic and statistical analysis)
+        Generation Agent (content creation)
 
-4. **Fonctionnalités avancées** :
-   - Logging structuré pour le débogage
-   - Configuration centralisée
-   - Support multi-fournisseurs de recherche (Exa, Firecrawl)
-   - Gestion automatique des erreurs
+    Advanced Features:
 
-L'application est particulièrement adaptée pour :
-- Les assistants virtuels intelligents
-- Les systèmes de recherche d'information augmentée
-- Les outils d'analyse de contenu
-- Les générateurs de contenu automatisés
+        Structured logging for debugging
+        Centralized configuration
+        Support for multiple search providers (Exa, Firecrawl)
+        Automatic error handling
 
-Le système est conçu pour être extensible avec de nouveaux agents et capacités tout en maintenant une architecture propre et modulaire.
+The application is particularly suited for:
 
-## Fonctionnalités clés
+    Intelligent virtual assistants
+    Augmented information retrieval systems
+    Content analysis tools
+    Automated content generators
 
-- 📚**Recherche augmentée** : Combinaison de recherche web et RAG pour des réponses précises
-- 🤖 **Multi-agents** : Architecture modulaire avec agents spécialisés
-- ✅**Protocole MCP** : Implémentation du standard de conversation machine-to-machine
-- ✨**Intégration Ollama** : Utilisation des modèles LLM locaux via Ollama
-- 📝**Traitement avancé** : Extraction, nettoyage et analyse de contenu web
+The system is designed to be extensible with new agents and capabilities while maintaining a clean, modular architecture.
+Key Features
 
-## Architecture technique
+    📚 Augmented Search: Combination of web search and RAG for precise answers
+    🤖 Multi-Agent: Modular architecture with specialized agents
+    ✅ MCP Protocol: Implementation of the machine-to-machine conversation standard
+    ✨ Ollama Integration: Use of local LLM models via Ollama
+    📝 Advanced Processing: Web content extraction, cleaning, and analysis
+
+Technical Architecture
 
 ```markdown
 NEXUS-MCP-LLM-RAG/
@@ -65,19 +66,9 @@ NEXUS-MCP-LLM-RAG/
 └── .env.sample                  # Environment template
 ```
 
-## Prérequis
-
-- Python 3.10+
-- Ollama installé localement avec au moins un modèle (ex: `llama3`) (https://ollama.com/)
-- Clé API pour un fournisseur de recherche (Exa ou Firecrawl)
-
-
-# Installation with sources
-
 ## Prerequisite
 
-- curl
-
+- curl (https://curl.se/)
 ```bash
         sudo apt update
         sudo apt install curl
@@ -89,6 +80,9 @@ NEXUS-MCP-LLM-RAG/
         curl -LsSf https://astral.sh/uv/install.sh | sh
         source $HOME/.local/bin/env 
 ```
+
+- Python 3.10+
+
 - ollama (https://ollama.com/download)
 ```bash
         sudo apt update
@@ -97,7 +91,7 @@ NEXUS-MCP-LLM-RAG/
 ``` 
 - EXA Api key (https://dashboard.exa.ai/api-keys)
 
-- Firecrawl Api Key 
+- Firecrawl Api Key (https://www.firecrawl.dev/)
 
 - tmux (terminal multi-session)
 ```bash
