@@ -72,79 +72,102 @@ NEXUS-MCP-LLM-RAG/
 - Clé API pour un fournisseur de recherche (Exa ou Firecrawl)
 
 
-## Installation
+# Installation with sources
 
-- Cloner le dépôt :
+## Prerequisite
+
+    - curl
+    ```bash
+        sudo apt update
+        sudo apt install curl
+    ```
+
+    - uv (https://docs.astral.sh/uv/getting-started/installation/)
+    ```bash
+        sudo apt update
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        source $HOME/.local/bin/env 
+    ```
+    - ollama (https://ollama.com/download)
+    ```bash
+        sudo apt update
+        curl -fsSL https://ollama.com/install.sh | sh
+        source $HOME/.local/bin/env 
+    ``` 
+    - EXA Api key (https://dashboard.exa.ai/api-keys)
+
+    - Firecrawl Api Key 
+
+    - tmux (terminal multi-session)
+    ```bash
+        sudo apt update
+        sudo apt install tmux
+    ``` 
+    
+
+
+## Install
+
+- clone and access the repo :
 ```bash
-git clone https://github.com/OlivierLAVAUD/mcp-rag-ollama
-cd ollama-rag-agent
+    git clone https://github.com/OlivierLAVAUD/mcp-rag-ollama
+    cd ollama-rag-agent
 ```
 
-- Charger les modèles LLM à partir d'ollama et lancer le serveur ollama
-
+- create python env and activate
 ```bash
-# Exemple: Chargement du modele "mistral"
-ollama pull mistral
-
-# Lancement du serveur sur une session terminal indépendante.
-ollama serve
+    uv venv --python 3.10
+    source .venv/bin/activate
+```
+- install the python packages
+```bash
+    uv sync
+```
+- download ollama llm models:  llama3.2, mistral (https://ollama.com/search)
+```bash
+    ollama  pull llama3.2
+    ollama  pull mistral
+    # Launch ollama server
+    ollama serve
 ```
 
-- Créez & modifiez votre fichier de configuration/paramètrage .env :
-```bash
-# Creez le fichier .env sur le template .env sample fournit et modifiez le. (voir Configuration)
+- create your own env configuration file for modyfing parameters
 ```bash
     cp .env.sample .env 
-    edit .env           
+    nano .env
+    # specify SEARCH_PROVIDER exa or firecrawl
+    # add exa or firecrawl api keys 
+    # save the file
 ```
 
-## Utilisation
+- create a terminal session with tmux
+```bash
+    tmux new-session -d -s mcp-server
+    tmux attach-session -t mcp-server
+    # note for detach: Ctrl + B puis D
+```
 
-### Lancer le serveur MCP
+- launch the mcp server
+
 ```bash
     uv run app/mcp_server.py
 ```
 
-### Lancer une requête à l'Agent
+- create a  nother terminal session with tmux
+- prompt for asking 
 
 ```bash
     uv run app/agent.py "Donne moi les dernières actualités à propos des Agents IA"
 ```
 
-## Configuration
+## Sample execution
+<p align="center"><img src="img/image.png" alt="[Core Components" width="1200" height="600"></p>
 
-Les paramètres principaux sont configurables via le fichier .env :
-```bash
-# Modèle Ollama
-# === Génération Configuration du Modèle LLM via Ollama ===
-OLLAMA_MODEL=llama3.2
-OLLAMA_BASE_URL=http://localhost:11434
-EMBEDDING_MODEL=llama3.2
-
-OLLAMA_MODEL_TEMPERATURE=0.7  # Contrôle la créativité (0-1)
-OLLAMA_MODEL_MAX_TOKENS=1024  # Nombre maximum de tokens générés
-OLLAMA_MODEL_TOP_P=0.75       # Filtrage par noyau (0-1)
-
-# === Paramètres RAG ===
-RAG_CHUNK_SIZE=4096
-RAG_CHUNK_OVERLAP=512
-RAG_RESULTS=5
-
-# Fournisseur de recherche
-SEARCH_PROVIDER=exa  # ou firecrawl
-EXA_API_KEY=votre_cle_api
-...
-
-```
 
 ## Licence
 
-Ce projet est sous licence MIT - voir le fichier LICENCE.md pour plus de détails.
-
-## Auteur
-
-Olivier Lavaud - 2025
-
+The MIT License (MIT) 
+Copyright (c) 2025 Olivier Lavaud
 
 # Technical Documentation
 ## System Purpose
@@ -163,6 +186,7 @@ The system follows a layered architecture pattern, separating client interaction
 
 ## Core Components
 The system consists of four main components that work together to provide RAG capabilities:
+
 <p align="center"><img src="img/i2.png" alt="[Core Components" width="600" height="400">
 </p>
 
@@ -175,6 +199,7 @@ The system consists of four main components that work together to provide RAG ca
 
 ## Query Processing Flow
 The following diagram illustrates how a user query flows through the system:
+
 
 <p align="center"><img src="img/i3.png" alt="[Core Components" width="600" height="400"></p>
 
