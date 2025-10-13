@@ -4,37 +4,35 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An intelligent conversational agent implementing the Model Context Protocol (MCP) with RAG (Retrieval-Augmented Generation) capabilities using Ollama as the LLM backend.
-Application Overview
+
+# Application Overview
 
 This application is an intelligent conversational agent that combines several advanced technologies:
+-    Compliance with the MCP (Model Context Protocol): The Model Context Protocol (MCP) is a standardized framework for defining and managing the context of AI agents, ensuring better interoperability, traceability, and explainability. In this multi-agent system, the MCP standardizes communication between agents by encapsulating their metadata, capabilities, and constraints.
 
-    Compliance with the MCP (Model Context Protocol): The Model Context Protocol (MCP) is a standardized framework for defining and managing the context of AI agents, ensuring better interoperability, traceability, and explainability. In this multi-agent system, the MCP standardizes communication between agents by encapsulating their metadata, capabilities, and constraints.
-
-    RAG Architecture & LLM Models with Ollama:
-
+ -   RAG Architecture & LLM Models with Ollama:
+        
         Use of local LLM models via Ollama
         Complete document processing pipeline (extraction, chunking, embedding)
         Vector search with FAISS (CPU/GPU)
 
-    Multi-Agent Architecture:
+-    Multi-Agent Architecture:
 
         Search Agent (combines web search and RAG)
         Analysis Agent (semantic and statistical analysis)
         Generation Agent (content creation)
 
-    Advanced Features:
-
+-    Advanced Features:
         Structured logging for debugging
         Centralized configuration
         Support for multiple search providers (Exa, Firecrawl)
         Automatic error handling
 
-The application is particularly suited for:
-
-    Intelligent virtual assistants
-    Augmented information retrieval systems
-    Content analysis tools
-    Automated content generators
+-   The application is particularly suited for:
+        Intelligent virtual assistants
+        Augmented information retrieval systems
+        Content analysis tools
+        Automated content generators
 
 The system is designed to be extensible with new agents and capabilities while maintaining a clean, modular architecture.
 Key Features
