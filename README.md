@@ -76,38 +76,36 @@ NEXUS-MCP-LLM-RAG/
 
 ## Prerequisite
 
-    - curl
+- curl
 
 ```bash
         sudo apt update
         sudo apt install curl
 ```
 
-    - uv (https://docs.astral.sh/uv/getting-started/installation/)
+- uv (https://docs.astral.sh/uv/getting-started/installation/)
 ```bash
         sudo apt update
         curl -LsSf https://astral.sh/uv/install.sh | sh
         source $HOME/.local/bin/env 
 ```
-    - ollama (https://ollama.com/download)
+- ollama (https://ollama.com/download)
 ```bash
         sudo apt update
         curl -fsSL https://ollama.com/install.sh | sh
         source $HOME/.local/bin/env 
 ``` 
-    - EXA Api key (https://dashboard.exa.ai/api-keys)
+- EXA Api key (https://dashboard.exa.ai/api-keys)
 
-    - Firecrawl Api Key 
+- Firecrawl Api Key 
 
-    - tmux (terminal multi-session)
+- tmux (terminal multi-session)
 ```bash
         sudo apt update
         sudo apt install tmux
 ``` 
-    
 
-
-## Install
+## Install with sources
 
 - clone and access the repo :
 ```bash
