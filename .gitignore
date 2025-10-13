@@ -13,7 +13,6 @@ uv.lock
 app/__init__.py
 .python-version
 .env
-.env
 app/agent copy.py
 app/agent copy 2.py
 /docs

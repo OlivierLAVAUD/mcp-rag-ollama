@@ -77,7 +77,7 @@ NEXUS-MCP-LLM-RAG/
 ## Prerequisite
 
     - curl
-    ```bash
+```bash
         sudo apt update
         sudo apt install curl
     ```
