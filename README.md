@@ -180,7 +180,8 @@ The system is highly configurable through environment variables. Key configurati
 -    FAISS Settings: CPU/GPU mode, index path
 
 See .env.sample for all available configuration options.
-C## ore Components
+
+## Core Components
 ### Agent System
 
 -    OllamaAgent: Main agent combining search + RAG + summarization
@@ -197,19 +198,19 @@ C## ore Components
 
 ### Search Engine
 
-    Multiple Providers: Exa and Firecrawl support
-    Content Extraction: Web scraping and cleaning
-    Text Normalization: HTML parsing and filtering
+-    Multiple Providers: Exa and Firecrawl support
+-    Content Extraction: Web scraping and cleaning
+-    Text Normalization: HTML parsing and filtering
 
 ### Technology Stack
 
-    Framework: FastAPI, FastMCP
-    LLM: Ollama (llama3.2, mistral)
-    Vector Database: FAISS
-    Search: Exa, Firecrawl
-    Document Processing: LangChain, BeautifulSoup
-    Configuration: Python-dotenv
-    Logging: Structured JSON logging
+-    Framework: FastAPI, FastMCP
+-    LLM: Ollama (llama3.2, mistral)
+-    Vector Database: FAISS
+-    Search: Exa, Firecrawl
+-    Document Processing: LangChain, BeautifulSoup
+-    Configuration: Python-dotenv
+-    Logging: Structured JSON logging
 
 ## Licence
 
@@ -221,9 +222,9 @@ Copyright (c) 2025 Olivier Lavaud
 
 MCP-RAG-Ollama serves as a versatile query answering system that combines the power of large language models with real-time information retrieval. It enables users to:
 
-    Get answers to questions using contextual knowledge from web searches
-    Implement RAG workflows with Ollama models
-    Access the system via both API endpoints and command-line interface
+-    Get answers to questions using contextual knowledge from web searches
+-    Implement RAG workflows with Ollama models
+-    Access the system via both API endpoints and command-line interface
 
 
 
