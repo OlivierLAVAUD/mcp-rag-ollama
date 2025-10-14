@@ -175,7 +175,8 @@ The system is highly configurable through environment variables. Key configurati
 See .env.sample for all available configuration options.
 
 ## Core Components
-### Agent System
+
+### Agent System
 
 -    OllamaAgent: Main agent combining search + RAG + summarization
 -    AnalysisAgent: Text analysis and statistics
