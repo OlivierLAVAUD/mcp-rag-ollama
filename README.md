@@ -1,47 +1,52 @@
 # MCP-RAG-AI-AGENT
-## A MCP Rag AI Agent for Search 🔍,Analysis 📊 and Generative ✍️ tasks on listed web sources.
+## A MCP Rag AI Agent for Search 🔍, Analysis 📊 and Generative tasks ✍️ on listed web sources.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An intelligent conversational agent implementing the Model Context Protocol (MCP) with RAG (Retrieval-Augmented Generation) capabilities using Ollama as the LLM backend.
 
-# Application Overview
+## Application Overview
 
 This application is an intelligent conversational agent that combines several advanced technologies:
--    Compliance with the MCP (Model Context Protocol): The Model Context Protocol (MCP) is a standardized framework for defining and managing the context of AI agents, ensuring better interoperability, traceability, and explainability. In this multi-agent system, the MCP standardizes communication between agents by encapsulating their metadata, capabilities, and constraints.
 
- -   RAG Architecture & LLM Models with Ollama:
-        
-        Use of local LLM models via Ollama
-        Complete document processing pipeline (extraction, chunking, embedding)
-        Vector search with FAISS (CPU/GPU)
+- **Compliance with the MCP (Model Context Protocol)**: Standardized framework for defining and managing AI agent context, ensuring better interoperability, traceability, and explainability
+- **RAG Architecture & LLM Models with Ollama**: Local LLM models via Ollama, complete document processing pipeline, vector search with FAISS
+- **Multi-Agent Architecture**: Search Agent, Analysis Agent, and Generation Agent working in coordination
+- **Advanced Features**: Structured logging, centralized configuration, multiple search providers, automatic error handling
 
--    Multi-Agent Architecture:
+The system is particularly suited for:
+- Intelligent virtual assistants
+- Augmented information retrieval systems  
+- Content analysis tools
+- Automated content generators
 
-        Search Agent (combines web search and RAG)
-        Analysis Agent (semantic and statistical analysis)
-        Generation Agent (content creation)
+## Key Features
 
--    Advanced Features:
-        Structured logging for debugging
-        Centralized configuration
-        Support for multiple search providers (Exa, Firecrawl)
-        Automatic error handling
+🔍 Augmented Search
+-    Real-time web search combined with contextual RAG
+-    Multiple search providers with fallback options
+-    Automatic content extraction and cleaning
+-    Relevant source identification and citation
 
--   The application is particularly suited for:
-        Intelligent virtual assistants
-        Augmented information retrieval systems
-        Content analysis tools
-        Automated content generators
+🤖 Multi-Agent Architecture
+-    Specialized agents for different task types
+-    Centralized orchestration with lazy initialization
+-    Extensible agent registry for easy expansion
+-    Consistent interface across all agents
 
-The system is designed to be extensible with new agents and capabilities while maintaining a clean, modular architecture.
-Key Features
+📊 Advanced Processing
+-    Semantic search with vector embeddings
+-    Text analysis (length, word count, lexical density)
+-    Intelligent summarization with configurable parameters
+-    Content normalization and filtering
 
-    📚 Augmented Search: Combination of web search and RAG for precise answers
-    🤖 Multi-Agent: Modular architecture with specialized agents
-    ✅ MCP Protocol: Implementation of the machine-to-machine conversation standard
-    ✨ Ollama Integration: Use of local LLM models via Ollama
-    📝 Advanced Processing: Web content extraction, cleaning, and analysis
+🛠 Production Ready
+-    Structured JSON logging with rotation
+-    Comprehensive error handling and recovery
+-    Health monitoring endpoints
+-    Configuration validation at startup
+
+## Technical Architecture
 
 Technical Architecture
 
@@ -97,24 +102,22 @@ NEXUS-MCP-LLM-RAG/
         sudo apt install tmux
 ``` 
 
-## Install with sources
-
-- clone and access the repo :
+## Installation
+### Clone and Setup
 ```bash
     git clone https://github.com/OlivierLAVAUD/mcp-rag-ollama
     cd ollama-rag-agent
 ```
-
-- create python env and activate
+### Create Python Environment
 ```bash
     uv venv --python 3.10
     source .venv/bin/activate
 ```
-- install the python packages
+### Install Dependencies
 ```bash
     uv sync
 ```
-- download ollama llm models:  llama3.2, mistral (https://ollama.com/search)
+### Download Ollama Models (https://ollama.com/search)
 ```bash
     ollama  pull llama3.2
     ollama  pull mistral
@@ -122,7 +125,7 @@ NEXUS-MCP-LLM-RAG/
     ollama serve
 ```
 
-- create your own env configuration file for modyfing parameters
+### Configure Environment
 ```bash
     cp .env.sample .env 
     nano .env
@@ -131,29 +134,82 @@ NEXUS-MCP-LLM-RAG/
     # save the file
 ```
 
-- create a terminal session with tmux
+
+## Usage
+
+## Start MCP Server
 ```bash
-    tmux new-session -d -s mcp-server
-    tmux attach-session -t mcp-server
-    # note for detach: Ctrl + B puis D
+# Create a terminal session with tmux
+tmux new-session -d -s mcp-server
+tmux attach-session -t mcp-server
+# Note: to detach use Ctrl + B then D
+
+# Launch the MCP server
+uv run app/mcp_server.py
 ```
 
-- launch the mcp server
-
+## Execute Queries
 ```bash
-    uv run app/mcp_server.py
-```
+    # Create another terminal session
+    tmux new-session -d -s mcp-client
+    tmux attach-session -t mcp-client
 
-- create a  nother terminal session with tmux
-- prompt for asking 
-
-```bash
+    # Run queries
     uv run app/agent.py "Donne moi les dernières actualités à propos des Agents IA"
 ```
 
-## Sample execution
 <p align="center"><img src="img/image.png" alt="[Core Components" width="1200" height="600"></p>
 
+## API Endpoints
+The server provides the following REST endpoints:
+
+-    POST /search - Enhanced search with RAG capabilities
+-    POST /analyze - Text analysis and statistics
+-    POST /generate - Content generation
+-    GET /health - Server health check
+-    GET /tools - List available MCP tools
+
+## Configuration
+
+The system is highly configurable through environment variables. Key configuration options include:
+
+-    Ollama Settings: Model selection, temperature, token limits
+-    RAG Parameters: Chunk size, overlap, results count
+-    Search Providers: Exa or Firecrawl with API keys
+-    Server Configuration: Host, port, logging levels
+-    FAISS Settings: CPU/GPU mode, index path
+
+See .env.sample for all available configuration options.
+C## ore Components
+### Agent System
+
+-    OllamaAgent: Main agent combining search + RAG + summarization
+-    AnalysisAgent: Text analysis and statistics
+-    GenerationAgent: Content creation using LLMs
+-    AgentOrchestrator: Central coordination and routing
+
+### RAG Pipeline
+
+-    FAISS Vector Store: Efficient similarity search
+-    Ollama Embeddings: Text embedding generation
+-    Document Processing: Chunking and text splitting
+-    Similarity Search: Configurable result retrieval
+
+### Search Engine
+
+    Multiple Providers: Exa and Firecrawl support
+    Content Extraction: Web scraping and cleaning
+    Text Normalization: HTML parsing and filtering
+
+### Technology Stack
+
+    Framework: FastAPI, FastMCP
+    LLM: Ollama (llama3.2, mistral)
+    Vector Database: FAISS
+    Search: Exa, Firecrawl
+    Document Processing: LangChain, BeautifulSoup
+    Configuration: Python-dotenv
+    Logging: Structured JSON logging
 
 ## Licence
 
