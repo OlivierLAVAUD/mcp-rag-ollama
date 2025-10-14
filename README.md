@@ -3,17 +3,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An intelligent conversational agent implementing the Model Context Protocol (MCP) with RAG (Retrieval-Augmented Generation) capabilities using Ollama as the LLM backend.
+## Overview
 
-## Application Overview
-
-This application is an intelligent conversational agent that combines several advanced technologies:
-
-- **Compliance with the MCP (Model Context Protocol)**: Standardized framework for defining and managing AI agent context, ensuring better interoperability, traceability, and explainability
-- **RAG Architecture & LLM Models with Ollama**: Local LLM models via Ollama, complete document processing pipeline, vector search with FAISS
-- **Multi-Agent Architecture**: Search Agent, Analysis Agent, and Generation Agent working in coordination
-- **Advanced Features**: Structured logging, centralized configuration, multiple search providers, automatic error handling
-
+This is a sophisticated Multi-Agent RAG (Retrieval-Augmented Generation) system built around the Model Context Protocol (MCP) with Ollama as the LLM backend. The system combines web search, document analysis, and content generation capabilities in a modular architecture.
+#
 The system is particularly suited for:
 - Intelligent virtual assistants
 - Augmented information retrieval systems  
@@ -137,7 +130,7 @@ NEXUS-MCP-LLM-RAG/
 
 ## Usage
 
-## Start MCP Server
+### Start MCP Server
 ```bash
 # Create a terminal session with tmux
 tmux new-session -d -s mcp-server
@@ -148,7 +141,7 @@ tmux attach-session -t mcp-server
 uv run app/mcp_server.py
 ```
 
-## Execute Queries
+### Execute Queries
 ```bash
     # Create another terminal session
     tmux new-session -d -s mcp-client
